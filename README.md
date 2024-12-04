@@ -1,57 +1,99 @@
 # **Blog Application - MongoDB Schema**
 
-You are tasked with designing a comprehensive data model for a blog application using MongoDB. This application will support user-generated content, such as blog posts, comments, and user interactions like likes. The schema should ensure data consistency, enforce validation rules, and support efficient queries for essential functionalities. Below are the detailed requirements for the schema.
+## **Overview**
+This project involves designing a MongoDB schema for a blog application. The schema enables creating, storing, and managing blog posts and comments while ensuring data validation and efficient queries.
 
-create and schema.js file and write the schema in that file.
+---
 
-# **Requirements**
+## **Requirements**
 
-## 1. Blog Posts
+### **1. Blog Posts**
+Each blog post includes the following fields:
 
-Each blog post will contain the following fields:
+- **Title**  
+  - **Type**: `String`  
+  - **Requirements**:  
+    - Must be unique.  
+    - Minimum length: 5 characters.  
+  - **Description**: Serves as the title of the blog post.
 
-- **Title**: A required string that serves as the title of the post. This field must be unique and have a minimum length of 5 characters to ensure meaningful titles.
-- **Content**: A required string that holds the main content of the post. To maintain quality, this field must have a minimum length of 50 characters.
-- **Author**: A reference to a document in the User collection, representing the user who created the post.
-- **Tags**: An array of strings to store tags or keywords associated with the post, such as `['technology', 'programming', 'tutorial']`.
-- **Category**: A string representing the category of the post. If not provided, it should default to `"General"`.
-- **Published**: A boolean field indicating whether the post is published. By default, this value should be `false`.
-- **Created At**: A date field automatically set to the current date and time when the post is created.
-- **Updated At**: A date field that automatically updates whenever the post is modified, ensuring accurate tracking of changes.
+- **Content**  
+  - **Type**: `String`  
+  - **Requirements**:  
+    - Required.  
+    - Minimum length: 50 characters.  
+  - **Description**: The main content of the blog post.
 
-## 2. Comments
+- **Author**  
+  - **Type**: `String`  
+  - **Description**: Username of the author.
 
-Each blog post can have multiple comments. The comments field should store an array of subdocuments, with each subdocument containing the following:
+- **Tags**  
+  - **Type**: `Array of Strings`  
+  - **Description**: Optional field for storing tags or keywords related to the post, e.g., `['tech', 'coding']`.
 
-- **User**: A reference to the User collection, representing the user who made the comment.
-- **Message**: A required string containing the comment text.
-- **Commented At**: A date field automatically set to the current date and time when the comment is created.
+- **Category**  
+  - **Type**: `String`  
+  - **Default**: `"General"`  
+  - **Description**: Indicates the post category.
 
-## 3. Likes
+- **Likes**  
+  - **Type**: `Array of Strings`  
+  - **Description**: Stores usernames of users who liked the post.
 
-Each blog post should include a **likes** field to store an array of user IDs. This field keeps track of which users liked the post, enabling features like displaying the number of likes or checking if a specific user liked a post.
+- **Created At**  
+  - **Type**: `Date`  
+  - **Default**: Current timestamp  
+  - **Description**: Automatically records the post creation time.
 
-## 4. Validation Rules
+- **Updated At**  
+  - **Type**: `Date`  
+  - **Description**: Automatically updated on modifications.
 
-To ensure data integrity, implement the following validation rules:
+---
 
-- The **title** must be unique and at least 5 characters long.
-- The **content** must have a minimum length of 50 characters.
+### **2. Comments**
+Each blog post can have multiple comments stored as subdocuments:
 
-## Additional Notes
+- **Username**  
+  - **Type**: `String`  
+  - **Description**: Username of the commenter.
 
-- The **author** and **user** fields for blog posts and comments, respectively, should reference the `_id` field of the User collection.
-- Use **timestamps** (`createdAt` and `updatedAt`) to enable sorting and filtering posts by creation or modification time.
-- Ensure **indexes** are created on the **title** and **tags** fields for efficient querying.
+- **Message**  
+  - **Type**: `String`  
+  - **Requirements**:  
+    - Required.  
+  - **Description**: The comment text.
 
-## Deliverable
+- **Commented At**  
+  - **Type**: `Date`  
+  - **Default**: Current timestamp  
+  - **Description**: Automatically records the comment creation time.
 
-Using JavaScript syntax, write the MongoDB schema for the BlogPost collection. Ensure it meets the above requirements and includes:
+---
 
-- All specified fields and their types.
-- Default values where applicable.
-- Validation rules for title and content.
-- Relationships with the User collection for **author** and **comments.user**.
+## **Schema Implementation Goals**
+
+- **Validation Rules**  
+  - Titles must be unique and have a minimum length of 5 characters.  
+  - Content must have a minimum length of 50 characters.
+
+- **Relationships**  
+  - Comments are embedded as subdocuments within blog posts.
+
+- **Default Values**  
+  - `Category` defaults to `"General"`.  
+  - `Created At` and `Commented At` are automatically set to the current timestamp.
+
+---
+
+## **Usage Instructions**
+
+1. Create a `schema.js` file in your project.
+2. Define the schema using Mongoose.
+3. Implement CRUD operations to manage blog posts and comments.
+
+---
 
 # **How to Fork and Set Up Your Repository**
 
